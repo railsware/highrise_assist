@@ -13,7 +13,7 @@ module HighriseAssist
         @format = options[:format] || FORMATS.first
         FORMATS.include?(@format) or abort "Unsupported format: #{@format}"
 
-        @format_method = "to_#{options[:format]}".to_sym
+        @format_method = "to_#{@format}".to_sym
 
         @item_find_params = {}
       end
