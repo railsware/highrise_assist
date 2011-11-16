@@ -16,6 +16,8 @@ module HighriseAssist
         @format_method = "to_#{@format}".to_sym
 
         @tags = []
+
+        @parties = {}
       end
 
       attr_reader :root_dir, :format, :format_method
@@ -30,11 +32,13 @@ module HighriseAssist
         %w(Person Company).each do |type|
           collection = fetch_collection(type)
           store_collection(collection)
+          @parties[type] = collection
         end
 
         %w(Kase Deal).each do |type|
           next if options[:skip_items].include?(type)
           collection = fetch_collection(type)
+          filter_casedeal_collection!(collection)
           store_collection(collection)
           symlink_casedeal_collection(collection)
         end
@@ -139,16 +143,35 @@ module HighriseAssist
         download_file(attachment.attributes['url'], path)
       end
 
+      def filter_casedeal_collection!(collection)
+        collection.reject! do |casedeal|
+          parties = casedeal_parties(casedeal)
+          not parties.any? { |party| fetched_party?(party) }
+        end
+
+        log "# Filtered to #{collection.size} items"
+      end
+
       def symlink_casedeal_collection(collection)
         collection.each do |casedeal|
-          casedeal.parties.each do |party|
+          casedeal_parties(casedeal).each do |party|
+            next unless fetched_party?(party)
             symlink_casedeal_to_party(casedeal, party)
           end
-          if casedeal.is_a?(Highrise::Deal)
-            party = casedeal.party
-            party and symlink_casedeal_to_party(casedeal, party)
-          end
         end
+      end
+
+      def casedeal_parties(casedeal)
+        parties = []
+        parties += casedeal.parties
+        parties.push(casedeal.party) if casedeal.is_a?(Highrise::Deal)
+        parties.compact!
+        parties.uniq!
+        parties
+      end
+
+      def fetched_party?(party)
+        !!@parties[party.attributes['type']].detect { |p| p.id == party.id }
       end
 
       def symlink_casedeal_to_party(casedeal, party)
