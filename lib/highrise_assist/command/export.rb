@@ -15,7 +15,7 @@ module HighriseAssist
 
         @format_method = "to_#{@format}".to_sym
 
-        @item_find_params = {}
+        @tags = []
       end
 
       attr_reader :root_dir, :format, :format_method
@@ -25,7 +25,7 @@ module HighriseAssist
 
         log "* Fetching data ..."
 
-        set_tag_filter if options[:tag]
+        fetch_tags if options[:tag]
 
         %w(Person Company).each do |type|
           collection = fetch_collection(type)
@@ -44,16 +44,23 @@ module HighriseAssist
 
       protected
 
-      def set_tag_filter
+      def fetch_tags
         log "* Fetching tags ..."
-        tag = Highrise::Tag.find(:all).detect { |t| t.name == options[:tag] }
-        tag or abort "Unknown tag #{options[:tag]}"
-        @item_find_params = { :tag_id => tag.id }
+        @tags = Highrise::Tag.find(:all).select { |t| t.name == options[:tag] }
+        @tags.empty? and abort "Unknown tag #{options[:tag]}"
       end
 
       def fetch_collection(type)
         klass = Highrise.const_get(type)
-        collection = klass.find(:all, :params => @item_find_params)
+        if @tags.empty?
+          collection = klass.find(:all)
+        else
+          collection = []
+          @tags.each do |tag|
+            collection += klass.find(:all, :params => { :tag_id => tag.id } )
+          end
+          collection.uniq!
+        end
         log ""
         log "# #{type}: Found #{collection.size} items"
         collection

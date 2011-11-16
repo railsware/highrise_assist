@@ -55,7 +55,7 @@ module HighriseAssist
       Command.defined?(command) or raise OptionParser::ParseError, "Unknown command #{command.inspect}"
 
       Command.run(command, @options)
-    rescue OptionParser::ParseError
+    rescue OptionParser::ParseError => e
       warn e.message
       puts parser.help
       exit 1
