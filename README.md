@@ -4,7 +4,7 @@ highrise_assist is command line for 37signals' highrise.
 
 ## Description
 
-If you are using http://highrisehq.com/, you defiantly can notice that there are some processes in your company, that doesn't feet to the functionality implemented by 37signals' team. Fortunately they have quite strong API, that can be used for custom purposes. In our company we have bunch of such customizations, that we have decided to group in to the gem and deliver to the community. An the first tool is companies/contacts export by tag (read more below). So highrise_assist is a command line set of tools, which let you do custom operations with your data in highrise. 
+If you are using http://highrisehq.com/, you defiantly can notice that there are some processes in your company, that doesn't feet to the functionality implemented by 37signals' team. Fortunately they have quite strong API, that can be used for custom purposes. In our company we have bunch of such customizations, that we have decided to group in to the gem and deliver to the community. An the first tool is companies and contacts export by tag (read more below). So highrise_assist is a command line set of tools, which let you do custom operations with your data in highrise. 
 
 ## Installation
 
@@ -60,7 +60,7 @@ With highrise_assistexport you can easily export all the data tagged as "archive
 
 The use case2:
 As user of higrise
-I want to export all my data including attachments  
+I want to export all my data including attachments
 So that I can move data to the other management systems
 
 With highrise_assistexport you can easily do this operation.
