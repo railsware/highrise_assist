@@ -1,3 +1,7 @@
+# encoding: utf-8
+
+$KCODE = 'u' if RUBY_VERSION =~ /^1.8/
+
 require "optparse"
 
 module HighriseAssist
@@ -7,8 +11,6 @@ module HighriseAssist
     end
 
     def initialize(argv)
-      $KCODE = 'u'
-
       @argv = argv
       @options = {}
       @options[:skip_items] = []
