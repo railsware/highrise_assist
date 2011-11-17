@@ -1,6 +1,6 @@
 # Highrise Assist
 
-highrise_assist is command line for 37signals' highrise.
+highrise_assist is command line tool for 37signals' highrise.
 
 ## Description
 
@@ -47,9 +47,11 @@ If you are using http://highrisehq.com/, you defiantly can notice that there are
 ## Export Command
 
 ### Description
+
 If you are the using highrise for sales, human resources or some other activities, one day you will want to export data from the system. Here is the original article http://bit.ly/sTQr1W, which is describing the process. It's quite easy and works fine, but with highrise_assistexport you can do much better. This tool introduce you possibility to export companies and contacts with all the hierarchy of data including emails, notes, comments, cases, deals and even attachments (with web console you just don't have such  possibility) in xml or yaml formats. It is possible to mark exact business objects with the tag and then just export them.
 
-The use case1:
+#### The use case 1:
+
 As user of higrise
 I want to archive old contacts and companies 
 So that my list will be clean
@@ -58,7 +60,8 @@ Original help request: http://bit.ly/tIDlwk
 What 37signals' team recommends is: "Have you considered adding a tag to those contacts called "archived"?"
 With highrise_assistexport you can easily export all the data tagged as "archived", and than just remove data from the system.
 
-The use case2:
+#### The use case2:
+
 As user of higrise
 I want to export all my data including attachments
 So that I can move data to the other management systems
@@ -69,14 +72,7 @@ With highrise_assistexport you can easily do this operation.
 
 ### Synopsis
 
-    $ highrise_assistexport OPTIONS
-
-### Options
-
-* _domain_ (required) is either your full highrise domain name or subdomain name.
-* _token_ (required) is your API authentication token.
-* _tag_ is tag name for entities associated with it.
-* _directory_ - directory to store export data (default is highrise_data_YYYYMMDDHHMMSS)
+    $ highrise_assist export OPTIONS
 
 ### Example
 
