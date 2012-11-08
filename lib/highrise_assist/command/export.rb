@@ -57,7 +57,7 @@ module HighriseAssist
       def fetch_collection(type)
         klass = Highrise.const_get(type)
         if @tags.empty?
-          collection = klass.find(:all)
+          collection = klass.find(:all) || []
         else
           collection = []
           @tags.each do |tag|
