@@ -164,7 +164,11 @@ module HighriseAssist
       def casedeal_parties(casedeal)
         parties = []
         parties += casedeal.parties
-        parties.push(casedeal.party) if casedeal.is_a?(Highrise::Deal)
+
+        if casedeal.is_a?(Highrise::Deal) and casedeal.respond_to?(:party)
+          parties.push(casedeal.party)
+        end
+
         parties.compact!
         parties.uniq!
         parties
@@ -184,7 +188,7 @@ module HighriseAssist
         FileUtils.mkdir_p(destination_dir)
         Dir.chdir(destination_dir) do
           log "  Symlink #{source_name} to #{destination_name}"
-          FileUtils.ln_s(source_path, source_name)
+          FileUtils.ln_s(source_path, source_name, :force => true)
         end
       end
 
